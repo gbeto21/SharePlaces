@@ -6,7 +6,8 @@ import PlaceItem from './PlaceItem'
 
 const PlaceList = props => {
 
-    if (props.items.lenght === 0) {
+    console.log(props.items);
+    if (props.items.length === 0) {
         return (<div className="place-list center">
             <Card>
                 <h2>No places found. Maybe create one?</h2>
