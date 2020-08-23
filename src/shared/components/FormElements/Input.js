@@ -29,15 +29,12 @@ const Input = props => {
     isValid: false
   });
 
-  const { id, onInput } = [props]
-  const { value, isValid } = inputState
+  const { id, onInput } = props;
+  const { value, isValid } = inputState;
 
   useEffect(() => {
-    props.onInput(
-      id,
-      value,
-      isValid)
-  }, [id, value, isValid, onInput])
+    onInput(id, value, isValid)
+  }, [id, value, isValid, onInput]);
 
   const changeHandler = event => {
     dispatch({
@@ -64,14 +61,14 @@ const Input = props => {
         value={inputState.value}
       />
     ) : (
-        <textarea
-          id={props.id}
-          rows={props.rows || 3}
-          onChange={changeHandler}
-          onBlur={touchHandler}
-          value={inputState.value}
-        />
-      );
+      <textarea
+        id={props.id}
+        rows={props.rows || 3}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={inputState.value}
+      />
+    );
 
   return (
     <div
