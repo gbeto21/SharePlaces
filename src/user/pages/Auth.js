@@ -10,6 +10,7 @@ import {
 } from '../../shared/util/validators'
 import { useForm } from '../../shared/hooks/form-hook'
 import { AuthContext } from '../../shared/context/auth-context'
+import { API } from '../../config';
 
 const Auth = () => {
 
@@ -48,9 +49,38 @@ const Auth = () => {
         setIsLoginMode(prevMode => !prevMode)
     }
 
-    const authSubmitHandler = event => {
+    const authSubmitHandler = async event => {
         event.preventDefault()
-        console.log(formState.inputs);
+
+        if (isLoginMode) {
+
+        } else {
+
+            try {
+
+                const response = await fetch(
+                    `${API.URL}users/signup`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: formState.inputs.name.value,
+                            email: formState.inputs.email.value,
+                            password: formState.inputs.password.value
+                        })
+                    })
+
+                const responseData = await response.json()
+                console.log(responseData);
+
+            } catch (error) {
+                console.log("Error singup.", error);
+            }
+        }
+
+
         auth.login()
     }
 
