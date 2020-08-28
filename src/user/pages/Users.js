@@ -3,56 +3,41 @@ import UsersList from "../components/UsersList";
 import { API } from "../../config";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-
+import { useHttpClient } from "../../shared/hooks/http-hook";
 const Users = () => {
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState()
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [loadedUsers, setLoadedUsers] = useState()
 
     useEffect(() => {
 
-        const sendRequest = async () => {
+        const fetchUsers = async () => {
 
             try {
-                setIsLoading(true)
-                const response = await fetch(`${API.URL}users`)
-                const responseData = await response.json()
-
-                if (!response.ok) {
-                    throw new Error(responseData.message)
-                }
-
+                const responseData = await sendRequest(`${API.URL}users`)
                 setLoadedUsers(responseData.users)
 
-            } catch (error) {
-                setError(error.message)
+            } catch (error) { }
+        }
+        fetchUsers()
+    }, [sendRequest])
+
+    return (
+        <React.Fragment>
+
+            <ErrorModal error={error} onClear={clearError} />
+            {isLoading &&
+                <div className="center">
+                    <LoadingSpinner />
+                </div>
+            }
+            {
+                !isLoading &&
+                loadedUsers &&
+                <UsersList items={loadedUsers} />
             }
 
-            setIsLoading(false)
-        }
-        sendRequest()
-    }, [])
-
-    const errorHandler = () => {
-        setError(null)
-    }
-
-    return <React.Fragment>
-
-        <ErrorModal error={error} onClear={errorHandler} />
-        {isLoading &&
-            <div className="center">
-                <LoadingSpinner />
-            </div>
-        }
-        {
-            !isLoading &&
-            loadedUsers &&
-            <UsersList items={loadedUsers} />
-        }
-
-    </React.Fragment>
+        </React.Fragment>)
 }
 
 export default Users; 
