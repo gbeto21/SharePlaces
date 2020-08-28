@@ -66,7 +66,7 @@ const Auth = () => {
 
             try {
 
-                await sendRequest(
+                const responseData = await sendRequest(
                     `${API.URL}users/login`,
                     'POST',
                     JSON.stringify({
@@ -78,13 +78,13 @@ const Auth = () => {
                     },
                 )
 
-                auth.login()
+                auth.login(responseData.user.id)
             } catch (error) { }
 
         } else {
             try {
 
-                await sendRequest(
+                const responseData = await sendRequest(
                     `${API.URL}users/signup`,
                     'POST',
                     JSON.stringify({
@@ -97,7 +97,7 @@ const Auth = () => {
                     }
                 )
 
-                auth.login()
+                auth.login(responseData.user.id)
 
             } catch (err) { }
         }
