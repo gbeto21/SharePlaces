@@ -15,7 +15,6 @@ const Users = () => {
         const sendRequest = async () => {
 
             try {
-                console.log("Starts");
                 setIsLoading(true)
                 const response = await fetch(`${API.URL}users`)
                 const responseData = await response.json()
