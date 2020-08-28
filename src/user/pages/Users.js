@@ -1,24 +1,59 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UsersList from "../components/UsersList";
+import { API } from "../../config";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const Users = () => {
-    const USERS = [
-        {
-        id: 'u1',
-        name: 'Max Schwarz',
-        image: 'https://vignette.wikia.nocookie.net/disney/images/d/d0/Panchito_house_of_mouse_.jpg/revision/latest?cb=20160909061527',
-        places: 3
-    },
-    {
-        id: 'u2',
-        name: 'Xam Zrawch',
-        image: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b36be30e-c035-44ec-902b-4b09458e5141/d5zx33u-44e94a0c-0593-462a-8861-c85f3fbd51d0.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTpmaWxlLmRvd25sb2FkIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9iMzZiZTMwZS1jMDM1LTQ0ZWMtOTAyYi00YjA5NDU4ZTUxNDEvZDV6eDMzdS00NGU5NGEwYy0wNTkzLTQ2MmEtODg2MS1jODVmM2ZiZDUxZDAuanBnIn1dXX0.M_txoIpdcyNAq41gKEZytfGgQnm6UC-WY2mLUrc9Cj0',
-        places: 4
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState()
+    const [loadedUsers, setLoadedUsers] = useState()
+
+    useEffect(() => {
+
+        const sendRequest = async () => {
+
+            try {
+                console.log("Starts");
+                setIsLoading(true)
+                const response = await fetch(`${API.URL}users`)
+                const responseData = await response.json()
+
+                if (!response.ok) {
+                    throw new Error(responseData.message)
+                }
+
+                setLoadedUsers(responseData.users)
+
+            } catch (error) {
+                setError(error.message)
+            }
+
+            setIsLoading(false)
+        }
+        sendRequest()
+    }, [])
+
+    const errorHandler = () => {
+        setError(null)
     }
-]
 
+    return <React.Fragment>
 
-    return <UsersList items={USERS} />
+        <ErrorModal error={error} onClear={errorHandler} />
+        {isLoading &&
+            <div className="center">
+                <LoadingSpinner />
+            </div>
+        }
+        {
+            !isLoading &&
+            loadedUsers &&
+            <UsersList items={loadedUsers} />
+        }
+
+    </React.Fragment>
 }
 
 export default Users; 
