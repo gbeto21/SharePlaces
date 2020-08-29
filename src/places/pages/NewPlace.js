@@ -57,7 +57,10 @@ const NewPlace = () => {
       await sendRequest(
         `${API.URL}places`,
         'POST',
-        formData
+        formData,
+        {
+          Authorization: 'Bearer ' + auth.token
+        }
       )
       history.push('/')
     } catch (error) { console.log(error); }
