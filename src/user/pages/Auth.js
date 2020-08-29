@@ -14,6 +14,7 @@ import { useForm } from '../../shared/hooks/form-hook'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { AuthContext } from '../../shared/context/auth-context'
 import { API } from '../../config';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload'
 
 const Auth = () => {
 
@@ -123,6 +124,8 @@ const Auth = () => {
                         errorText="Place enter a name"
                         onInput={inputHandler}
                     />}
+
+                    {!isLoginMode && <ImageUpload center id="image" />}
 
                     <Input
                         element="input"
