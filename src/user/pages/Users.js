@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import UsersList from "../components/UsersList";
-import { API } from "../../config";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
@@ -14,7 +13,8 @@ const Users = () => {
         const fetchUsers = async () => {
 
             try {
-                const responseData = await sendRequest(`${API.URL}users`)
+                console.log('Users');
+                const responseData = await sendRequest(`${process.env.REACT_APP_URL}users`)
                 setLoadedUsers(responseData.users)
 
             } catch (error) { }

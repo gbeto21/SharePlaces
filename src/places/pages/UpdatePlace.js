@@ -15,8 +15,6 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 
-import { API } from "../../config";
-
 const UpdatePlace = () => {
 
   const auth = useContext(AuthContext)
@@ -42,7 +40,7 @@ const UpdatePlace = () => {
   useEffect(() => {
     const fetchPlace = async () => {
       try {
-        const responseData = await sendRequest(`${API.URL}places/${placeId}`)
+        const responseData = await sendRequest(`${process.env.REACT_APP_URL}places/${placeId}`)
         setLoadedPlace(responseData.place)
         setFormData(
           {
@@ -66,7 +64,7 @@ const UpdatePlace = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `${API.URL}places/${placeId}`,
+        `${process.env.REACT_APP_URL}places/${placeId}`,
         'PATCH',
         JSON.stringify({
           title: formState.inputs.title.value,

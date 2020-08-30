@@ -13,7 +13,7 @@ import {
 import { useForm } from '../../shared/hooks/form-hook'
 import './PlaceForm.css';
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { API } from "../../config";
+
 import { AuthContext } from '../../shared/context/auth-context'
 
 const NewPlace = () => {
@@ -54,7 +54,7 @@ const NewPlace = () => {
 
       console.log(formData);
       await sendRequest(
-        `${API.URL}places`,
+        `${process.env.REACT_APP_URL}places`,
         'POST',
         formData,
         {

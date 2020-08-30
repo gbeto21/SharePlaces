@@ -13,7 +13,6 @@ import {
 import { useForm } from '../../shared/hooks/form-hook'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { AuthContext } from '../../shared/context/auth-context'
-import { API } from '../../config';
 import ImageUpload from '../../shared/components/FormElements/ImageUpload'
 
 const Auth = () => {
@@ -73,7 +72,7 @@ const Auth = () => {
             try {
 
                 const responseData = await sendRequest(
-                    `${API.URL}users/login`,
+                    `${process.env.REACT_APP_URL}users/login`,
                     'POST',
                     JSON.stringify({
                         email: formState.inputs.email.value,
@@ -97,7 +96,7 @@ const Auth = () => {
                 formData.append('image', formState.inputs.image.value)
 
                 const responseData = await sendRequest(
-                    `${API.URL}users/signup`,
+                    `${process.env.REACT_APP_URL}users/signup`,
                     'POST',
                     formData
                 )

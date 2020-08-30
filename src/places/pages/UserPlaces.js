@@ -4,7 +4,6 @@ import ErrorModal from '../../shared/components/UIElements/ErrorModal'
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner'
 import { useParams } from 'react-router-dom'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import { API } from "../../config";
 
 const UserPlaces = () => {
 
@@ -16,7 +15,7 @@ const UserPlaces = () => {
         const fetchPlaces = async () => {
             try {
                 const responseData = await sendRequest(
-                    `${API.URL}places/user/${userId}`
+                    `${process.env.REACT_APP_URL}places/user/${userId}`
                 )
                 setLoadedPlaces(responseData.places)
             } catch (error) { }
