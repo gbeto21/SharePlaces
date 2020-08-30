@@ -28,3 +28,6 @@ config.js
 #.env
 .env
 .env.production
+
+#firebase
+.firebase
